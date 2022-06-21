@@ -16,8 +16,6 @@
 		2852068A286237A400F12292 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28520689286237A400F12292 /* FirstViewController.swift */; };
 		2852068E2862387600F12292 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2852068D2862387600F12292 /* DataManager.swift */; };
 		28520690286238A600F12292 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2852068F286238A600F12292 /* CollectionViewCell.swift */; };
-		28520692286238C700F12292 /* FirstViewController+TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28520691286238C700F12292 /* FirstViewController+TransitioningDelegate.swift */; };
-		28520694286238D900F12292 /* FirstViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28520693286238D900F12292 /* FirstViewController+CollectionView.swift */; };
 		285206962862391800F12292 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285206952862391800F12292 /* Animator.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,8 +31,6 @@
 		28520689286237A400F12292 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		2852068D2862387600F12292 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		2852068F286238A600F12292 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		28520691286238C700F12292 /* FirstViewController+TransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirstViewController+TransitioningDelegate.swift"; sourceTree = "<group>"; };
-		28520693286238D900F12292 /* FirstViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirstViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		285206952862391800F12292 /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,8 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				28520689286237A400F12292 /* FirstViewController.swift */,
-				28520693286238D900F12292 /* FirstViewController+CollectionView.swift */,
-				28520691286238C700F12292 /* FirstViewController+TransitioningDelegate.swift */,
 				2852068F286238A600F12292 /* CollectionViewCell.swift */,
 			);
 			path = First;
@@ -205,10 +199,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2852068A286237A400F12292 /* FirstViewController.swift in Sources */,
-				28520692286238C700F12292 /* FirstViewController+TransitioningDelegate.swift in Sources */,
 				2852068E2862387600F12292 /* DataManager.swift in Sources */,
 				28520690286238A600F12292 /* CollectionViewCell.swift in Sources */,
-				28520694286238D900F12292 /* FirstViewController+CollectionView.swift in Sources */,
 				285206882862379A00F12292 /* SecondViewController.swift in Sources */,
 				285206962862391800F12292 /* Animator.swift in Sources */,
 				285206702862356B00F12292 /* AppDelegate.swift in Sources */,

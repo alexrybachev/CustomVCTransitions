@@ -34,9 +34,13 @@ class FirstViewController: UIViewController {
         
         secondViewController.modalPresentationStyle = .fullScreen
         secondViewController.data = data
+        secondViewController.transitioningDelegate = self
+        
         present(secondViewController, animated: true)
     }
 }
+
+// MARK: - UICollectionViewDataSource and UICollectionViewDelegate
 
 extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
@@ -50,7 +54,6 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
         return cell
     }
 
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presentSecondViewController(with: DataManager.data[indexPath.row])
     }
@@ -59,4 +62,19 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let width = (collectionView.bounds.width - Constants.cellSpacing) / 2
         return .init(width: width, height: width)
     }
+}
+
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension FirstViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
+    }
+    
+    
 }

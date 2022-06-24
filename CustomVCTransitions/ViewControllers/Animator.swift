@@ -14,8 +14,8 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
     private let type: PresentationType
     private let firstViewController: FirstViewController
     private let secondViewController: SecondViewController
-    private let selectedCellImageViewSnapshot: UIView
     private let cellImageViewRect: CGRect
+    private var selectedCellImageViewSnapshot: UIView
     
     init?(type: PresentationType, firstViewController: FirstViewController, secondViewController: SecondViewController, selectedCellImageViewSnapshot: UIView) {
         self.type = type
@@ -58,33 +58,60 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
         
         let isPresenting = type.isPresenting
         
-        let imageViewSnapshot: UIView
+//        let imageViewSnapshot: UIView
+//
+//        if isPresenting {
+//            imageViewSnapshot = cellImageSnapshot
+//        } else {
+//            imageViewSnapshot = controllerImageSnapshot
+//        }
         
         if isPresenting {
-            imageViewSnapshot = cellImageSnapshot
-        } else {
-            imageViewSnapshot = controllerImageSnapshot
+            selectedCellImageViewSnapshot = cellImageSnapshot
         }
         
         toView.alpha = 0
         
-        [imageViewSnapshot].forEach { containerView.addSubview($0) }
+//        [imageViewSnapshot].forEach { containerView.addSubview($0) }
+        
+        [selectedCellImageViewSnapshot, controllerImageSnapshot].forEach { containerView.addSubview($0) }
         
         let controllerImageViewRect = secondViewController.locationImageView.convert(secondViewController.locationImageView.bounds, to: window)
         
         
-        [imageViewSnapshot].forEach {
+//        [imageViewSnapshot].forEach {
+//            $0.frame = isPresenting ? cellImageViewRect : controllerImageViewRect
+//        }
+        
+        [selectedCellImageViewSnapshot, controllerImageSnapshot].forEach {
             $0.frame = isPresenting ? cellImageViewRect : controllerImageViewRect
         }
         
+        controllerImageSnapshot.alpha = isPresenting ? 0 : 1
+        
+        selectedCellImageViewSnapshot.alpha = isPresenting ? 1 : 0
+        
+        
         UIView.animateKeyframes(withDuration: Self.duration, delay: 0, options: .calculationModeCubic, animations: {
+            
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
                 
-                imageViewSnapshot.frame = isPresenting ? controllerImageViewRect : self.cellImageViewRect
+//                imageViewSnapshot.frame = isPresenting ? controllerImageViewRect : self.cellImageViewRect
+                self.selectedCellImageViewSnapshot.frame = isPresenting ? controllerImageViewRect : self.cellImageViewRect
+                controllerImageSnapshot.frame = isPresenting ? controllerImageViewRect : self.cellImageViewRect
+                
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
+                self.selectedCellImageViewSnapshot.alpha = isPresenting ? 0 : 1
+                controllerImageSnapshot.alpha = isPresenting ? 1 : 0
             }
         }, completion: { _ in
             
-            imageViewSnapshot.removeFromSuperview()
+//            imageViewSnapshot.removeFromSuperview()
+            
+            self.selectedCellImageViewSnapshot.removeFromSuperview()
+            controllerImageSnapshot.removeFromSuperview()
             
             toView.alpha = 1
             

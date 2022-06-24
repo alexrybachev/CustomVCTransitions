@@ -103,6 +103,9 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
         
         [selectedCellImageViewSnapshot, controllerImageSnapshot].forEach {
             $0.frame = isPresenting ? cellImageViewRect : controllerImageViewRect
+            
+            $0.layer.cornerRadius = isPresenting ? 12 : 0
+            $0.layer.masksToBounds = true
         }
         
         controllerImageSnapshot.alpha = isPresenting ? 0 : 1
@@ -125,6 +128,10 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
                 fadeView.alpha = isPresenting ? 1 : 0
                 
                 cellLabelSnapshot.frame = isPresenting ? controllerLabelRect : self.cellLabelRect
+                
+                [controllerImageSnapshot, self.selectedCellImageViewSnapshot].forEach {
+                    $0.layer.cornerRadius = isPresenting ? 0 : 12
+                }
             }
             
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {

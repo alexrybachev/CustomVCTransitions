@@ -8,13 +8,17 @@
 import UIKit
 
 enum Constants {
-    
     static let cellSpacing: CGFloat = 8
 }
 
 class FirstViewController: UIViewController {
     
     @IBOutlet private var collectionView: UICollectionView!
+    
+    var selectedCell: CollectionViewCell?
+    var selectedCellImageViewSnapshot: UIView?
+    
+    var animator: Animator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +59,8 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedCell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell
+        selectedCellImageViewSnapshot = selectedCell?.locationImageView.snapshotView(afterScreenUpdates: false)
         presentSecondViewController(with: DataManager.data[indexPath.row])
     }
 
@@ -69,11 +75,22 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
 extension FirstViewController: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil
+        guard let firstViewController = presenting as? FirstViewController,
+              let secondViewController = presented as? SecondViewController,
+              let selectedCellImageViewSnapshot = selectedCellImageViewSnapshot
+        else { return nil }
+        
+        animator = Animator(type: .present, firstViewController: firstViewController, secondViewController: secondViewController, selectedCellImageViewSnapshot: selectedCellImageViewSnapshot)
+        return animator
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil
+        guard let secondViewController = dismissed as? SecondViewController,
+              let selectedCellImageViewSnapshot = selectedCellImageViewSnapshot
+        else { return nil }
+        
+        animator = Animator(type: .dismiss, firstViewController: self, secondViewController: secondViewController, selectedCellImageViewSnapshot: selectedCellImageViewSnapshot)
+        return animator
     }
     
     

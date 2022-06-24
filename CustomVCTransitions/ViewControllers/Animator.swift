@@ -45,10 +45,53 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
         
         containerView.addSubview(toView)
         
-        transitionContext.completeTransition(true)
+        //        transitionContext.completeTransition(true)
+        
+        guard let selectedCell = firstViewController.selectedCell,
+              let window = firstViewController.view.window ?? secondViewController.view.window,
+              let cellImageSnapshot = selectedCell.locationImageView.snapshotView(afterScreenUpdates: true),
+              let controllerImageSnapshot = secondViewController.locationImageView.snapshotView(afterScreenUpdates: true)
+        else {
+            transitionContext.completeTransition(true)
+            return
+        }
+        
+        let isPresenting = type.isPresenting
+        
+        let imageViewSnapshot: UIView
+        
+        if isPresenting {
+            imageViewSnapshot = cellImageSnapshot
+        } else {
+            imageViewSnapshot = controllerImageSnapshot
+        }
+        
+        toView.alpha = 0
+        
+        [imageViewSnapshot].forEach { containerView.addSubview($0) }
+        
+        let controllerImageViewRect = secondViewController.locationImageView.convert(secondViewController.locationImageView.bounds, to: window)
+        
+        
+        [imageViewSnapshot].forEach {
+            $0.frame = isPresenting ? cellImageViewRect : controllerImageViewRect
+        }
+        
+        UIView.animateKeyframes(withDuration: Self.duration, delay: 0, options: .calculationModeCubic, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
+                
+                imageViewSnapshot.frame = isPresenting ? controllerImageViewRect : self.cellImageViewRect
+            }
+        }, completion: { _ in
+            
+            imageViewSnapshot.removeFromSuperview()
+            
+            toView.alpha = 1
+            
+            transitionContext.completeTransition(true)
+        })
     }
 }
-
 
 enum PresentationType {
     

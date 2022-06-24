@@ -7,9 +7,13 @@
 
 import UIKit
 
+// MARK: - enum Constants
+
 enum Constants {
     static let cellSpacing: CGFloat = 8
 }
+
+// MARK: - class FirstViewController
 
 class FirstViewController: UIViewController {
     
@@ -36,9 +40,10 @@ class FirstViewController: UIViewController {
     func presentSecondViewController(with data: CellData) {
         guard let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SecondViewController") as? SecondViewController else { return }
         
+        secondViewController.transitioningDelegate = self
+        
         secondViewController.modalPresentationStyle = .fullScreen
         secondViewController.data = data
-        secondViewController.transitioningDelegate = self
         
         present(secondViewController, animated: true)
     }
@@ -75,21 +80,25 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
 extension FirstViewController: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
         guard let firstViewController = presenting as? FirstViewController,
               let secondViewController = presented as? SecondViewController,
               let selectedCellImageViewSnapshot = selectedCellImageViewSnapshot
         else { return nil }
         
         animator = Animator(type: .present, firstViewController: firstViewController, secondViewController: secondViewController, selectedCellImageViewSnapshot: selectedCellImageViewSnapshot)
+        
         return animator
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
         guard let secondViewController = dismissed as? SecondViewController,
               let selectedCellImageViewSnapshot = selectedCellImageViewSnapshot
         else { return nil }
         
         animator = Animator(type: .dismiss, firstViewController: self, secondViewController: secondViewController, selectedCellImageViewSnapshot: selectedCellImageViewSnapshot)
+        
         return animator
     }
     
